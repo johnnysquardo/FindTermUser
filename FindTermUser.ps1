@@ -1,6 +1,15 @@
+#Set the ExecutionPolicy to allow execution of scripts
+Set-ExecutionPolicy Unrestricted
+
+Import-Module ActiveDirectory
+
 #Import my script for remote AD connection
 $Server = "winops.ais.domain"
-$Session = new-pssession -computer $Server
+$Creds = Get-Credential
+$Session = new-pssession -ComputerName $Server -Credential $Creds 
 
-Invoke-Command -Session $Session -ScriptBlock { Import-Module ActiveDirectory }
-Import-PSSession -Session $Session -Module ActiveDirectory
+Enter-PSSession $Session
+
+$Username = Read-Host -Prompt "Who are you trying to find?"
+ 
+Get-RDUserSession
